@@ -233,15 +233,6 @@ const MinesGame: React.FC = () => {
 
     return (
         <div className="mines-game">
-            {/*<div className="game-header">*/}
-            {/*    <div className="title-section">*/}
-            {/*        <h1 className="game-title">MINES</h1>*/}
-            {/*        <div className="balance-section">*/}
-            {/*            <span className="balance-label">BALANCE</span>*/}
-            {/*            <span className="balance-amount">{gameState.balance.toFixed(2)}</span>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             <GameHeader
                 balance={gameState.balance}
                 onMuteToggle={() => setIsMuted(!isMuted)}
