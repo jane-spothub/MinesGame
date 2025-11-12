@@ -9,6 +9,8 @@ export const BetHistory: FC = () => {
         { id: 2, amount: 20, multiplier: 0, result: 'loss', timestamp: '2024-01-15 14:25' },
         { id: 3, amount: 15, multiplier: 1.8, result: 'win', timestamp: '2024-01-15 14:20' },
         { id: 4, amount: 10, multiplier: 3.2, result: 'win', timestamp: '2024-01-15 14:15' },
+        { id: 5, amount: 10, multiplier: 0, result: 'loss', timestamp: '2024-01-15 14:25' },
+        { id: 6, amount: 50, multiplier: 5.4, result: 'win', timestamp: '2024-01-15 14:15' },
     ];
 
     return (
