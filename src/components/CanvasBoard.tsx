@@ -184,7 +184,6 @@ const CanvasBoard: React.FC<CanvasBoardProps> = ({
                     const bombSize = cellSize * 0.7;
                     const bombX = cellX + (cellSize - bombSize) / 2;
                     const bombY = cellY + (cellSize - bombSize) / 2;
-
                     // Draw bomb image first
                     ctx.drawImage(bombImageRef.current, bombX, bombY, bombSize, bombSize);
 
