@@ -114,6 +114,7 @@ const CanvasBoard: React.FC<CanvasBoardProps> = ({
             const y = gridStartY + row * (cellSize + GRID_GAP);
             setExplosions(prev => [...prev, { x, y, frame: 0 }]);
         }
+
     }, [gameStatus, showAllCells, getCellCoordinates, board, onRevealCell, gridStartX, cellSize, gridStartY]);
 
     const handleMouseMove = useCallback((event: MouseEvent) => {
@@ -164,6 +165,7 @@ const CanvasBoard: React.FC<CanvasBoardProps> = ({
         const shouldReveal = cell.isRevealed || forceReveal;
 
         if (shouldReveal) {
+
             if (cell.isBomb) {
                 // Bomb cell
                 const gradient = ctx.createLinearGradient(
@@ -184,7 +186,28 @@ const CanvasBoard: React.FC<CanvasBoardProps> = ({
                     const bombX = cellX + (cellSize - bombSize) / 2;
                     const bombY = cellY + (cellSize - bombSize) / 2;
 
+                    // Draw bomb image first
                     ctx.drawImage(bombImageRef.current, bombX, bombY, bombSize, bombSize);
+
+                    // THEN draw the pulsing effects on top
+                    const pulse = Math.sin(Date.now() * 0.01) * 0.3 + 0.7;
+
+                    // Pulsating core (drawn over the bomb)
+                    ctx.fillStyle = `rgba(255, 50, 50, ${pulse * 0.6})`;
+                    ctx.beginPath();
+                    ctx.arc(cellX + cellSize/2, cellY + cellSize/2, cellSize/8, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Radiating waves
+                    ctx.strokeStyle = `rgba(255, 100, 100, ${0.5 * pulse})`;
+                    ctx.lineWidth = 2;
+                    for (let i = 0; i < 3; i++) {
+                        const waveProgress = (Date.now() * 0.005 + i * 0.3) % 1;
+                        const radius = (cellSize/6) + waveProgress * (cellSize/3);
+                        ctx.beginPath();
+                        ctx.arc(cellX + cellSize/2, cellY + cellSize/2, radius, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
 
                 } else {
                     // Fallback drawn bomb
@@ -347,7 +370,8 @@ const CanvasBoard: React.FC<CanvasBoardProps> = ({
             });
         }
 
-    }, [board, drawCell, gridStartX, gridStartY, totalGridWidth, totalGridHeight, cellSize, hoveredCell, showAllCells]);
+    }, [gridStartX, gridStartY, totalGridWidth, totalGridHeight, board, hoveredCell, showAllCells, drawCell, cellSize, explosions]);
+
     useEffect(() => {
         if (explosions.length === 0) return;
         const interval = setInterval(() => {
